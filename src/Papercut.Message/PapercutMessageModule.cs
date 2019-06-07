@@ -17,16 +17,15 @@
 
 namespace Papercut.Message
 {
+    using System;
+
     using Autofac;
     using Autofac.Core;
 
     using Papercut.Core.Domain.Message;
-    using Papercut.Core.Infrastructure.Plugins;
 
-    public class PapercutMessageModule : Autofac.Module, IDiscoverableModule
+    public class PapercutMessageModule : Autofac.Module
     {
-        public IModule Module => this;
-
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<MessageRepository>().AsSelf().SingleInstance();

@@ -144,7 +144,14 @@ namespace Papercut.ViewModels
             }
         }
 
-        public string Version => $"Papercut v{Assembly.GetExecutingAssembly().GetName().Version.ToString(3)}";
+        string GetVersion()
+        {
+            var productVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
+
+            return productVersion.Split('+').FirstOrDefault();
+        }
+
+        public string Version => $"Papercut v{GetVersion()}";
 
         public bool IsLogOpen
         {
@@ -221,10 +228,10 @@ namespace Papercut.ViewModels
             yield return $@"<div class=""logEntry {e.Level}"">";
             yield return $@"<span class=""date"">{e.Timestamp:G}</span>";
             yield return $@"[<span class=""errorLevel"">{e.Level}</span>]";
-            yield return e.RenderMessage();
+            yield return e.RenderMessage().Linkify();
             if (e.Exception != null)
             {
-                yield return $@"<span class=""fatal"">Exception: {e.Exception.Message}</span>";
+                yield return $@"<br/><span class=""fatal""><b>Exception:</b> {e.Exception.Message.Linkify()}</span>";
             }
             yield return @"</div>";
         }

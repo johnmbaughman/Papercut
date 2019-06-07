@@ -18,20 +18,18 @@
 
 namespace Papercut.Rules
 {
+    using System;
     using System.Reflection;
 
     using Autofac;
     using Autofac.Core;
 
     using Papercut.Core.Domain.Rules;
-    using Papercut.Core.Infrastructure.Plugins;
 
     using Module = Autofac.Module;
 
-    public class PapercutRuleModule : Module, IDiscoverableModule
+    public class PapercutRuleModule : Module
     {
-        public IModule Module => this;
-
         protected override void Load(ContainerBuilder builder)
         {
             // rules and rule dispatchers
@@ -48,7 +46,7 @@ namespace Papercut.Rules
 
             builder.RegisterType<RulesRunner>().As<IRulesRunner>().SingleInstance();
 
-            builder.RegisterType<RuleRespository>().AsSelf().SingleInstance();
+            builder.RegisterType<RuleRepository>().AsSelf().SingleInstance();
         }
     }
 }
